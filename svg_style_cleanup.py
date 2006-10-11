@@ -245,7 +245,7 @@ def zero(a, b):
 
 def ints(a, b):
 	"""
-	Checks if bots strings represents integer values AND
+	Checks if both strings represents integer values AND
 	if these values are equal.
 
 	Regexp: "\([0-9]\+\)\(\.0\*\)?"
