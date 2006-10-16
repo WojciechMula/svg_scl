@@ -3,66 +3,67 @@
 __README__ = """
 
 Introduction
-============
+------------------------------------------------------------
 
-This program cleans SVG.  It removes from a style definiton properties
-that aren't neccessary to proper render image, and thus file size is
-decrased.
+This program cleans **inline** style definition, removing
+properties that are not necessary to proper render image.
 
-Since program doesn't implement CSS methods 2 and 3 could be safety used
-with files where style is described ONLY inside attribute 'style'.  (It
-works fine on SVG files produced by Inkscape).
+1. Some properties don't apply to all SVG_ tags --- for
+   example markers ("arrows") applies only to paths.
+   And such properties could be removed if present in
+   style of other elements.
 
-1. Some properties aren't apply to all SVG tags - for example 
-   markers (arrows) applies only to paths, but not rectangles
-   nor circles.  Such properties could be removed.
+   Enabled with option ``-a``
 
-   Option -a
+2. Some properties has the same value as property of parent
+   node.  If a property inherits than setting it again in a
+   child node isn't needed.  For example::
 
-2. Some properties has the same value as property of parent node.
-   If a property inherits than setting it again in a child node
-   isn't needed.  For example:
+	   <svg ...>
+	   <g style="stroke-width: 2px">
+		  <line style="stroke-width: 2px" x1=.../>
+		  <line style="stroke-width: 3px" x1=.../>
+		  <line style="stroke-width: 2px" x1=.../>
+		  <line style="stroke-width: 2px" x1=.../>
+	   </g>
+	   </svg>
 
-   <svg ...>
-   <g style="stroke-width: 2px">
-      <line style="stroke-width: 2px" x1=.../>
-      <line style="stroke-width: 3px" x1=.../>
-      <line style="stroke-width: 2px" x1=.../>
-      <line style="stroke-width: 2px" x1=.../>
-   </g>
-   </svg>
-
-   After transformation:
+   After transformation::
   
-   <svg ...>
-   <g style="stroke-width: 2px">
-      <line x1=.../>
-      <line style="stroke-width: 3px" x1=.../>
-      <line x1=.../>
-      <line x1=.../>
-   </g>
-   </svg>
+	   <svg ...>
+	   <g style="stroke-width: 2px">
+		  <line x1=.../>
+		  <line style="stroke-width: 3px" x1=.../>
+		  <line x1=.../>
+		  <line x1=.../>
+	   </g>
+	   </svg>
    
-   Option -i
+   Enabled with option ``-i``
 
-3. Properties with default value are removed too.
+3. Properties that has default value are removed too.
    
-   Option -i
+   Enabled with option ``-i``
+
+
+Since program doesn't know anything about CSS, methods 2
+and 3 could be safety used with files not using local
+or external stylesheets.
 
 
 Experiment result
-=================
+------------------------------------------------------------
 
-Here are sizes of SVG files I've drawn using Inkscape
+Here are sizes of SVG files I've drawn using Inkscape_
 and files after lifting.
 
 Columns:
 	A - size of original file
-	B - no clean - just print xml tree using builtin method
+	B - no clean - just print xml tree using built-in method
 	    (single option '-f file')
 	C - removed properties that not apply to certain SVG tag
 	    (options '-a -f file')
-	D - removed redundant properites (inherited/default value)
+	D - removed redundant properties (inherited/default value)
 	    (options '-i -f file')
 	I - both methods
 	    (options '-i -a -f file')
@@ -114,19 +115,17 @@ Columns:
  32719 | 28046 | 26818 | 20700 | 20122
 
 Summary: in the best case file size was reduced
-         about 52%; average ratio: 65%.
+about 52%; average ratio: 65%.
 
 Author
-======
+-----------------------------------------------------------
 
 Wojciech Mu³a, wojciech_mula@poczta.onet.pl
 BSD license
 
-Links
-=====
 
-SVG: http://www.w3.org/TR/SVG/
-Inkscape: http://www.inkscape.org/
+.. _SVG:		http://www.w3.org/TR/SVG/
+.. _Inkscape:	http://www.inkscape.org/
 """
 
 
@@ -500,10 +499,6 @@ def clean(root, inherited={}):
 	#rof
 #fed
 
-'''
-from sys import argv, stderr, stdout
-from xml.dom.minidom import parse
-'''
 
 #######################################################################
 
