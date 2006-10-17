@@ -1,6 +1,10 @@
 # -*- coding: iso-8859-2 -*-
 
 __README__ = """
+===========================================================
+                  SVG style cleanup
+===========================================================
+
 
 Introduction
 ------------------------------------------------------------
@@ -50,72 +54,6 @@ Since program doesn't know anything about CSS, methods 2
 and 3 could be safety used with files not using local
 or external stylesheets.
 
-
-Experiment result
-------------------------------------------------------------
-
-Here are sizes of SVG files I've drawn using Inkscape_
-and files after lifting.
-
-Columns:
-	A - size of original file
-	B - no clean - just print xml tree using built-in method
-	    (single option '-f file')
-	C - removed properties that not apply to certain SVG tag
-	    (options '-a -f file')
-	D - removed redundant properties (inherited/default value)
-	    (options '-i -f file')
-	I - both methods
-	    (options '-i -a -f file')
-
-   A   |   B   |   C   |   D   |   E  
--------+-------+-------+-------+--------
- 37343 | 35471 | 28660 | 23341 | 21476
- 22017 | 18810 | 18640 | 12835 | 12665
- 60451 | 53346 | 49317 | 33827 | 32348
-  3765 |  3178 |  3178 |  2734 |  2734
-  9222 |  8727 |  8167 |  7955 |  7699
- 37085 | 31210 | 31193 | 22094 | 22077
- 14595 | 14594 | 14594 | 14594 | 14594
- 12939 | 11362 | 11240 |  7541 |  7470
-  5001 |  4393 |  4314 |  3503 |  3474
- 12584 | 10934 | 10709 |  7537 |  7412
-  4749 |  4170 |  4091 |  3327 |  3298
-  6339 |  5560 |  5413 |  4478 |  4382
-  4749 |  4170 |  4091 |  3327 |  3298
- 24946 | 21618 | 20670 | 14023 | 13675
- 22250 | 19487 | 16485 | 12791 | 11689
- 12590 | 11208 | 11089 |  8287 |  8168
- 15854 | 14026 | 13281 | 10015 |  9720
-  7704 |  6822 |  6692 |  5349 |  5269
- 10644 |  9282 |  9203 |  6598 |  6569
-  7756 |  6871 |  6741 |  5398 |  5318
- 13594 | 11999 | 11491 |  8786 |  8578
- 20689 | 17933 | 16985 | 12557 | 12209
- 25542 | 21754 | 21319 | 15421 | 15186
- 15622 | 13723 | 12854 |  9498 |  9179
- 10347 |  9194 |  9047 |  7043 |  6946
- 10380 |  9222 |  9075 |  7071 |  6974
-  9768 |  8673 |  8526 |  6656 |  6559
-  9791 |  8691 |  8544 |  6674 |  6577
- 15589 | 13897 | 13146 | 10117 |  9766
- 29885 | 26547 | 25757 | 17592 | 17302
- 21079 | 18065 | 17811 | 14214 | 14110
- 16934 | 14634 | 14555 | 12163 | 12134
- 29665 | 27547 | 27468 | 24201 | 24172
- 17501 | 15383 | 14690 | 11274 | 10931
- 13261 | 11626 | 10960 |  7757 |  7491
-  8611 |  7493 |  7214 |  5909 |  5780
- 14435 | 12847 | 12192 |  9306 |  9001
- 14435 | 12847 | 12192 |  9306 |  9001
-  7116 |  6235 |  6156 |  4568 |  4539
- 14715 | 12841 | 12636 |  9570 |  9415
-  6677 |  5952 |  5910 |  4606 |  4564
-  8989 |  7843 |  7697 |  5762 |  5666
- 32719 | 28046 | 26818 | 20700 | 20122
-
-Summary: in the best case file size was reduced
-about 52%; average ratio: 65%.
 
 Author
 -----------------------------------------------------------
@@ -504,6 +442,7 @@ def clean(root, inherited={}):
 
 if __name__ == '__main__':
 	import optparse
+	import os
 	import sys
 
 	parser = optparse.OptionParser()
@@ -524,8 +463,15 @@ if __name__ == '__main__':
 	if options.print_readme:
 		print __README__
 		sys.exit()
+	
+	if not options.filename:
+		parser.print_help()
+		sys.exit()
 
 	import xml.dom.minidom
+
+	if not os.path.isfile(options.filename):
+		sys.exit()
 
 	document = xml.dom.minidom.parse(options.filename)
 	svg = document.getElementsByTagName('svg')
