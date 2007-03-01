@@ -4,7 +4,7 @@
 
 Last update: 17.10.2006
 
-.. contents::
+.. contents:: Contents
 
 
 Introduction
