@@ -2,6 +2,10 @@
                   SVG style cleanup
 ===========================================================
 
+Last update: 17.10.2006
+
+.. contents::
+
 
 Introduction
 ------------------------------------------------------------
@@ -162,6 +166,13 @@ Columns:
 
 Summary: in the best case file size was reduced
 about 52%; average ratio: 65%.
+
+
+Downloads
+-----------------------------------------------------------
+
+* `svg_style_cleanup.py <svg_style_cleanup.py>`_ (16kB)
+
 
 Author
 -----------------------------------------------------------
