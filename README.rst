@@ -167,17 +167,9 @@ Columns:
 Summary: in the best case file size was reduced
 about 52%; average ratio: 65%.
 
-
-Downloads
+License
 -----------------------------------------------------------
 
-* `svg_style_cleanup.py <svg_style_cleanup.py>`_ (16kB)
-
-
-Author
------------------------------------------------------------
-
-Wojciech Muła, wojciech_mula@poczta.onet.pl
 BSD license
 
 
